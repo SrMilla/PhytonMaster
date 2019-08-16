@@ -6,4 +6,4 @@ Created on Fri Aug 16 18:46:55 2019
 """
 
 import pandas as pd
-rea
+personajes=pd.read_excel("Personajes.xlsx")
