@@ -7,20 +7,19 @@ Created on Sat Aug 17 15:15:08 2019
 import random
 import pandas as pd
 import os
-from Prueba1 import campodebatalla as bf
-from Prueba1 import monstruos as ms
+import Prueba1
 añadirm(0,1,0)
 def anadirm(idm,nv,j):#el idm identifica al mons,el nv no se como ponerlo,el numero de moustro que habra en el cam
     nombre=ms.at[idm,0]
     nombre=nombre + " 1"
-    bf.at[j,0]=nombre
-    min=ms.at[idm,1]
-    max=ms.at[idm,3]
+    Prueba1.campodebatalla.at[j,0]=nombre
+    min=Prueba1.monstruos.at[idm,1]
+    max=Prueba1.monstruos.at[idm,3]
     pvm=random.randint(min,max-1)
-    bf.at[j,'Puntos de vida']=pvm
+    Prueba1.campodebatalla.at[j,'Puntos de vida']=pvm
     i=2
     for i in 37:
-        bf.at[j,i]=ms.at[idm,i]
+        Prueba1.campodebatalla.at[j,i]=Prueba1.monstruos.at[idm,i]
 def menu():
     #os.system('cls')
     partida_pausa = 1

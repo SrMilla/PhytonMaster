@@ -17,7 +17,7 @@ print("Bienvenid@",personajes.at[0,'Usuario'],"tu personaje",personajes.at[0,'No
 f.menu()
 personajes.at[0,'Usuario']="irene"
 print(t)
-f.añadirm(0,1,0)
+f.anadirm(0,1,0)
 #t=personajes.at[0,'Usuario'] #Esto se usa?
 campodebatalla.at[0,'Monstruo']="cabra"
 #######FUNCIÓN PRINCIPAL##############
