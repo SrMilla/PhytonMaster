@@ -29,8 +29,6 @@ def competir(personaje1,personaje2,cualidad,cualidad2):
         print("Has fracasado")
     if Tirada>Tirada2 :
         resultado=1("Has triunfado")
-
-
 def atacar(atacante, defensor, arma):
     contendientes = pd.read_excel("Batalla.xlsx")
     tirada_ataque = random.randit(0,20) + contendientes.at[atacante,bhabilidad] + contendientes.at[atacante,bcompetencia]
@@ -69,15 +67,53 @@ def menu():
                 else: 
                         print("")
                         input("DING DONG YOU ARE MR WRONG...")
-
-            
 def actualizar():
        personajes = pd.read_excel("Personajes.xlsx")
        monstruos = pd.read_excel("Monstruos.xlsx")
        print("La lista de jugadores y monstruos ha sido actualizada")
        print("\n Volviendo al menu principal")
-
-
+def caminar():
+    partida_pausa = 1
+    while partida_pausa==1:
+        print ("¿Hacia donde quieres ir?")
+        print ("\t\t1 -N")
+        print ("\t8 -NO\t\t2 -NE")
+        print ("7 -O\t\t\t\t3 -E")
+        print ("\t6 -SO\t\t4 -SE")
+        print ("\t\t5 -S")
+        opcion_elegida=0
+        while opcion_elegida ==0:
+            opcion_elegida = input("\nElige un número: ")
+            if opcion_elegida=="1":
+                print("")
+                input("Has seleccionado Norte")
+            elif opcion_elegida=="2":
+                print("")
+                input("Has seleccionado Noreste")
+            elif opcion_elegida=="3":
+                print("")
+                input("Has seleccionado Este")
+            elif opcion_elegida=="4":
+                print("")
+                input("Has seleccionado Sureste")
+            elif opcion_elegida=="5":
+                print("")
+                input("Has seleccionado Sur")
+            elif opcion_elegida=="6":
+                print("")
+                input("Has seleccionado Suroeste")
+            elif opcion_elegida=="7":
+                print("")
+                input("Has seleccionado Oeste")
+            elif opcion_elegida=="8":
+                print("")
+                input("Has seleccionado Noroeste")
+            else:
+                print("Te has equivocado")
+                opcion_elegida=0
+        direccion=opcion_elegida
+        partida_pausa=0
+                
 #######FUNCIÓN PRINCIPAL##############
 #Creacion de menu
 menu()
