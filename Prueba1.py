@@ -12,13 +12,14 @@ import Funciones as f
 personajes = pd.read_excel("Personajes.xlsx")
 monstruos = pd.read_excel("Monstruos.xlsx")
 campodebatalla=pd.read_excel("Campo de batalla.xlsx")
+print("Bienvenid@",personajes.at[0,'Usuario'],"tu personaje",personajes.at[0,'Nombre'],"esta preparado para la accion")
 #estados = [luchando, andando, durmiendo, hablando]
 f.menu()
-
-
-
-#•t=personajes.at[0,'Usuario'] #Esto se usa?
-
+personajes.at[0,'Usuario']="irene"
+print(t)
+f.añadirm(0,1,0)
+#t=personajes.at[0,'Usuario'] #Esto se usa?
+campodebatalla.at[0,'Monstruo']="cabra"
 #######FUNCIÓN PRINCIPAL##############
 #Creacion de menu
 menu()
