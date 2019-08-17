@@ -7,19 +7,22 @@ Created on Sat Aug 17 15:15:08 2019
 import random
 import pandas as pd
 import os
-import Prueba1
-añadirm(0,1,0)
-def anadirm(idm,nv,j):#el idm identifica al mons,el nv no se como ponerlo,el numero de moustro que habra en el cam
-    nombre=ms.at[idm,0]
-    nombre=nombre + " 1"
-    Prueba1.campodebatalla.at[j,0]=nombre
-    min=Prueba1.monstruos.at[idm,1]
-    max=Prueba1.monstruos.at[idm,3]
+monte = pd.read_excel("Monstruos.xlsx")
+
+def anadirm(bf,idm,nv,j):#el idm identifica al mons,el nv no se como ponerlo,el numero de moustro que habra en el cam
+    cm=list(monte)
+    nombre=monte.at[idm,cm[0]]
+    cbf=list(bf)
+    bf.at[j,cbf[0]]=nombre
+    print("va")
+    min=monte.at[0,cm[1]]
+    max=monte.at[idm,cm[3]]
     pvm=random.randint(min,max-1)
-    Prueba1.campodebatalla.at[j,'Puntos de vida']=pvm
+    bf.at[j,cbf[1]]=pvm
     i=2
-    for i in 37:
-        Prueba1.campodebatalla.at[j,i]=Prueba1.monstruos.at[idm,i]
+    while i <36:
+        bf.at[j,cbf[i]]=monte.at[idm,cbf[i]]
+        i+=1
 def menu():
     #os.system('cls')
     partida_pausa = 1
