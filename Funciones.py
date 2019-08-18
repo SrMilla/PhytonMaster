@@ -8,8 +8,13 @@ import random
 import pandas as pd
 import os
 monte = pd.read_excel("Monstruos.xlsx")
-
-def anadirm(bf,idm,nv,j):#el idm identifica al mons,el nv no se como ponerlo,el numero de moustro que habra en el cam
+def quitarvidamonstruo(bf,idm,pv):
+    cbf=list(bf)
+    bf.at[idm,cbf[1]]=bf.at[idm,cbf[1]]-pv
+    if bf.at[idm,cbf[1]]<1:
+        bf.drop([idm],inplace=True)#se elimina la fila
+    
+def anadirm(bf,idm,j):#el idm identifica al mons,el nv no se como ponerlo,el numero de moustro que habra en el cam
     cm=list(monte)
     nombre=monte.at[idm,cm[0]]
     cbf=list(bf)
@@ -51,7 +56,7 @@ def menu():
                 else: 
                         print("")
                         input("DING DONG YOU ARE MR WRONG...")
-def actualizar():
+def actualizar(personajes,monstruos):
        personajes = pd.read_excel("Personajes.xlsx")
        monstruos = pd.read_excel("Monstruos.xlsx")
        print("La lista de jugadores y monstruos ha sido actualizada")
