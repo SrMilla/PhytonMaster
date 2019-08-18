@@ -7,26 +7,53 @@ Created on Sat Aug 17 15:15:08 2019
 import random
 import pandas as pd
 import os
+import time
 monte = pd.read_excel("Monstruos.xlsx")
+def capitulo1(pdf,bfdf,mdf):
+    print("Te encuentras en la nada?")
+    añadirp(pdf,bfdf)
+    t=caminar()
+    i=0
+    while i < t:
+        añadirm(bfdf,0,i+1)
+        i+=1
+    print("Oh no te has encontrado ",t," arañas\n Is time to fight")
+def añadirp(pdf,bfdf):
+    cp=list(pdf)
+    cbf=list(bfdf)
+    numerodejugadores=pdf.shape[0]
+    i=0
+    while i < numerodejugadores:
+        bfdf.at[i,cbf[0]]=pdf.at[i,cp[0]]
+        bfdf.at[i,cbf[1]]=pdf.at[i,cp[2]]
+        bfdf.at[i,cbf[2]]=pdf.at[i,cp[3]]
+        j=3
+        while j < 37:
+            bfdf.at[i,cbf[j]]=pdf.at[i,cbf[j]]
+            j+=1
+        i+=1
+            
 def quitarvidamonstruo(bf,idm,pv):
     cbf=list(bf)
     bf.at[idm,cbf[1]]=bf.at[idm,cbf[1]]-pv
     if bf.at[idm,cbf[1]]<1:
         bf.drop([idm],inplace=True)#se elimina la fila
-    
-def anadirm(bf,idm,j):#el idm identifica al mons,el nv no se como ponerlo,el numero de moustro que habra en el cam
+
+def añadirm(bfdf,idm,j):#el idm identifica al mons,el nv no se como ponerlo,el numero de moustro que habra en el cam
     cm=list(monte)
     nombre=monte.at[idm,cm[0]]
-    cbf=list(bf)
-    bf.at[j,cbf[0]]=nombre
+    cbf=list(bfdf)
+    bfdf.at[j,cbf[0]]=nombre
     print("va")
     min=monte.at[0,cm[1]]
     max=monte.at[idm,cm[3]]
     pvm=random.randint(min,max-1)
-    bf.at[j,cbf[1]]=pvm
-    i=2
-    while i <36:
-        bf.at[j,cbf[i]]=monte.at[idm,cbf[i]]
+    bfdf.at[j,cbf[1]]=pvm
+    bfdf.at[j,cbf[2]]=pvm
+
+    i=3
+    while i <37:
+        bfdf.at[j,cbf[i]]=monte.at[idm,cbf[i]]
         i+=1
         
 def menu():
@@ -103,8 +130,11 @@ def caminar():
             else:
                 print("Te has equivocado")
                 opcion_elegida=0
+        print("Caminas")
+        time.sleep(3)
         direccion=opcion_elegida
         partida_pausa=0
+        direccion=int(float(direccion))
         return  direccion
     
 def competir(personaje1,personaje2,cualidad,cualidad2):
@@ -141,4 +171,4 @@ def atacar(atacante, defensor, arma):
             damage += random.randit(0,dados_damage[2])
         print(damage)
 
-atacar("Rampo Doyle", "cocodrilo1", "Bola de fuego")
+#atacar("Rampo Doyle", "cocodrilo1", "Bola de fuego")
