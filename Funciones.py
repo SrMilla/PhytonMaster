@@ -28,6 +28,7 @@ def anadirm(bf,idm,j):#el idm identifica al mons,el nv no se como ponerlo,el num
     while i <36:
         bf.at[j,cbf[i]]=monte.at[idm,cbf[i]]
         i+=1
+        
 def menu():
     #os.system('cls')
     partida_pausa = 1
@@ -56,11 +57,13 @@ def menu():
                 else: 
                         print("")
                         input("DING DONG YOU ARE MR WRONG...")
+                        
 def actualizar(personajes,monstruos):
        personajes = pd.read_excel("Personajes.xlsx")
        monstruos = pd.read_excel("Monstruos.xlsx")
        print("La lista de jugadores y monstruos ha sido actualizada")
        print("\n Volviendo al menu principal")
+       
 def caminar():
     partida_pausa = 1
     while partida_pausa==1:
@@ -103,6 +106,7 @@ def caminar():
         direccion=opcion_elegida
         partida_pausa=0
         return  direccion
+    
 def competir(personaje1,personaje2,cualidad,cualidad2):
     Tirada = random.randit(0,20)+personajes.at[personaje1,cualidad]
     Tirada2 = random.randit(0,20)+personajes.at[personaje2,cualidad]
@@ -111,13 +115,30 @@ def competir(personaje1,personaje2,cualidad,cualidad2):
         print("Has fracasado")
     if Tirada>Tirada2 :
         resultado=1("Has triunfado")
+        
 def atacar(atacante, defensor, arma):
-    contendientes = pd.read_excel("Batalla.xlsx")
-    tirada_ataque = random.randit(0,20) + contendientes.at[atacante,bhabilidad] + contendientes.at[atacante,bcompetencia]
-    tirada_defensa = random.randit(0,20) + contendientes.at[defensor,cualidad] + contendientes.at[atacante,bcompetencia]
+    contendientes = pd.read_excel("Campo de batalla.xlsx")
+    print(contendientes)
+    print(atacante)
+    print(contendientes.at[atacante,'Wisdom'])
+    armas = pd.read_excel("Armas_Hechizos.xlsx")
+    if armas.at[arma,Tipo] == "H":
+        tirada_ataque = random.randit(0,20) + contendientes.at[atacante,Wisdom] + contendientes.at[atacante,bcompetencia]
+    else:
+        tirada_ataque = random.randit(0,20) + contendientes.at[atacante,Wisdom] + contendientes.at[atacante,bcompetencia]
+    tirada_defensa = random.randit(0,20) + contendientes.at[defensor, "Clase de armadura"] #+ contendientes.at[atacante,bcompetencia]
+    print("La tirada de ataque es: " + tirada_ataque)
+    print("La tirada de ataque es: " + tirada_ataque)
     if tirada_ataque < tirada_defensa:
         resultado = 0
         print("El ataque no ha tenido éxito")
     else:
         print("El ataque es exitoso!")
-        #consultando el arma hay que saber qué dados se tiran
+        dados_damage = armas.at[arma,Damage]
+        print(dados_damage)
+        print("Daño:" + dados_damage)
+        for i in range(0,dados_damage[0]):
+            damage += random.randit(0,dados_damage[2])
+        print(damage)
+
+atacar("Rampo Doyle", "cocodrilo1", "Bola de fuego")
