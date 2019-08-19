@@ -9,8 +9,22 @@ import pandas as pd
 import os
 import time
 monte = pd.read_excel("Monstruos.xlsx")
-def capitulo1(pdf,bfdf,mdf):
-    print("Te encuentras en la nada?")
+def ubicacion(x,y,mapa):
+    #numero de ubicaciones que hay 
+    nm=mapa.shape[0]
+    #se busca ubicacion en el dataframe de mapa
+    i=0
+    encontrado=False
+    while i<nm and encontrado==False:
+        if mapa.at[i,'x']==x and mapa.at[i,'y']==y:
+            encontrado=True#se interrumpe la busqueda
+            t=i
+        i+=1
+    #t es la id de la ubicacion
+    print(mapa.at[t,'descripcion'])
+def capitulo1(pdf,bfdf,mdf,mp):
+    print("Te encuentras en la nada")
+    
     añadirp(pdf,bfdf)
     t=caminar()
     i=0
