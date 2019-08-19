@@ -9,19 +9,51 @@ import pandas as pd
 import os
 import time
 monte = pd.read_excel("Monstruos.xlsx")
-def ubicacion(x,y,mapa):
+def ubicacion(pos,mapa):
     #numero de ubicaciones que hay 
     nm=mapa.shape[0]
     #se busca ubicacion en el dataframe de mapa
     i=0
+    t=0
     encontrado=False
-    while i<nm and encontrado==False:
-        if mapa.at[i,'x']==x and mapa.at[i,'y']==y:
-            encontrado=True#se interrumpe la busqueda
-            t=i
+    while i<nm :
+        if mapa.at[i,'x']==pos[0]:
+            if mapa.at[i,'y']==pos[1]:
+                encontrado=True#se interrumpe la busqueda
+                t=i
         i+=1
     #t es la id de la ubicacion
     print(mapa.at[t,'descripcion'])
+    
+    return t
+def aventura(mapa,pos):
+    dir=caminar()
+    x=0
+    y=0
+    if dir==1:
+        print("")
+        y=1
+    elif dir==2:
+        x=1
+        y=0
+    elif dir==3:
+        x=1
+    elif dir==4:
+        y=-1
+        x=1
+    elif dir==5:
+        y=-1
+    elif dir==6:
+        y=-1
+        x=-1
+    elif dir==7:
+        x=-1
+    elif dir==8:
+        x=-1
+        y=1
+    pos[0]=pos[0]+x
+    pos[1]=pos[1]+y
+    print("Ahora estas en",pos[0],pos[1])
 def capitulo1(pdf,bfdf,mdf,mp):
     print("Te encuentras en la nada")
     
@@ -144,6 +176,7 @@ def caminar():
             else:
                 print("Te has equivocado")
                 opcion_elegida=0
+                break
         print("Caminas")
         time.sleep(3)
         direccion=opcion_elegida

@@ -14,7 +14,9 @@ personajes = pd.read_excel("Personajes.xlsx")
 print("Tu personaje  "+personajes.at[0,'Nombre']+" ya se ha cargado\nCargando monstruos...")
 monstruos = pd.read_excel("Monstruos.xlsx")
 mp=pd.read_excel("Mapa.xlsx")
-f.ubicacion(1,1,mp)
-campodebatalla=pd.read_excel("Campo de batalla.xlsx")
-monte = pd.read_excel("Monstruos.xlsx")
-f.capitulo1(personajes,campodebatalla,monstruos)
+i=0
+ubi=[0,0]
+while i<4:
+    f.aventura(mp,ubi)
+    f.ubicacion(ubi,mp)
+    i+=1
