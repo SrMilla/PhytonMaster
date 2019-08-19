@@ -2,13 +2,54 @@
 """
 Created on Sat Aug 17 15:15:08 2019
 
-@author: Raul Milla
+@author: Milla y Mateos
 """
 import random
 import pandas as pd
 import os
 import time
-monte = pd.read_excel("Monstruos.xlsx")
+#monte = pd.read_excel("Monstruos.xlsx")
+def encuentro(mapa,posicion,campodebatalla,personajes,mapademonstruos):
+    idubicacion=ubicacion(posicion,mapa)
+    print(mapa.at[idubicacion,'descripcion'])
+    semillademonstruos=mapa.at[idubicacion,'idsm']
+    semillademonstruos=int(float(semillademonstruos))
+    if semillademonstruos > 0:
+        #buscamos la semilla de ese mapa en el mapa de monstruos 
+        i=0
+        continuar=True
+        while ((i < mapademonstruos.shape[0]) and continuar):
+            j=int(float(mapademonstruos.at[i,'IDS']))
+            if j==semillademonstruos:
+                indexdemapademonstruo=i
+                continuar=False
+            i+=1
+def sacarindexmonstruo(nombre,monstruo):
+    i=0
+    
+    for i in range(monstruo.shape[0]):
+        if nombre==monstruo.at[i,'Monstruo']:
+            return i
+def añadirsm(campodebatalla,semillademonstruo,monstruos,idsemilla,numero_de_jugadores):
+    #sacamos el numero de monstruos que existen,quitamos una columna que es la del ID
+    nm=semillademonstruo.shape[1]-1
+    i=0
+    listademonstruos=list(semillademonstruo)
+    numeromonstruos=numero_de_jugadores
+    print("va")
+
+    while i < nm:
+        idmonstruo=sacarindexmonstruo(listademonstruos[i],monstruos)
+        print("va")
+
+        para_añadir=int(float(semillademonstruo.at[idsemilla,listademonstruos[i]]))
+        print("va")
+        for j in range(para_añadir):
+            print("va")
+            añadirm(campodebatalla,monstruos,idmonstruo,numeromonstruos)
+            print("va")
+
+            numeromonstruos+=1
 def pmenu(lista,pos,mapa):
     nl=len(lista)
     accion_no_selecionada=True
@@ -21,7 +62,7 @@ def pmenu(lista,pos,mapa):
         opcion_elegida=int(float(opcion_elegida))
 #        for j in range(nl):
         if lista[opcion_elegida] == "Atacar":
-            print("Opcion no disponible")
+            print("Opcion en desarollo")
             accion_no_selecionada=False
         elif lista[opcion_elegida] == "Caminar":
             accion_no_selecionada=False
@@ -31,6 +72,7 @@ def pmenu(lista,pos,mapa):
             accion_no_selecionada=False
             return False                
     return True
+
 def ubicacion(pos,mapa):
     #numero de ubicaciones que hay 
     nm=mapa.shape[0]
@@ -43,8 +85,9 @@ def ubicacion(pos,mapa):
                 encontrado=True#se interrumpe la busqueda
                 t=i
         i+=1
+    return t
     #t es la id de la ubicacion
-    print(mapa.at[t,'descripcion'])
+    #print(mapa.at[t,'descripcion'])
     
 def aventura(pos,mapa):
     dir=caminar()
@@ -74,16 +117,16 @@ def aventura(pos,mapa):
     pos[0]=pos[0]+x
     pos[1]=pos[1]+y
     print("Ahora estas en",pos[0],pos[1])
-def capitulo1(pdf,bfdf,mdf,mp):
-    print("Te encuentras en la nada")
-    
-    añadirp(pdf,bfdf)
-    t=caminar()
-    i=0
-    while i < t:
-        añadirm(bfdf,0,i+1)
-        i+=1
-    print("Oh no te has encontrado ",t," arañas\n Is time to fight")
+#def capitulo1(pdf,bfdf,mdf,mp):
+#    print("Te encuentras en la nada")
+#    
+#    añadirp(pdf,bfdf)
+#    t=caminar()
+#    i=0
+#    while i < t:
+#        añadirm(bfdf,0,i+1)
+#        i+=1
+#    print("Oh no te has encontrado ",t," arañas\n Is time to fight")
 def añadirp(pdf,bfdf):
     cp=list(pdf)
     cbf=list(bfdf)
@@ -105,7 +148,7 @@ def quitarvidamonstruo(bf,idm,pv):
     if bf.at[idm,cbf[1]]<1:
         bf.drop([idm],inplace=True)#se elimina la fila
 
-def añadirm(bfdf,idm,j):#el idm identifica al mons,el nv no se como ponerlo,el numero de moustro que habra en el cam
+def añadirm(bfdf,monte,idm,j):#el idm identifica al mons,el nv no se como ponerlo,el numero de moustro que habra en el cam
     cm=list(monte)
     nombre=monte.at[idm,cm[0]]
     cbf=list(bfdf)
