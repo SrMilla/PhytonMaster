@@ -255,30 +255,48 @@ def competir(personaje1,personaje2,cualidad,cualidad2):
         print("Has fracasado")
     if Tirada>Tirada2 :
         resultado=1("Has triunfado")
-        
+
 def atacar(atacante, defensor, arma):
+    damage = 0
+    #Carga de los dataframes
     contendientes = pd.read_excel("Campo de batalla.xlsx")
-    print(contendientes)
-    print(atacante)
-    print(contendientes.at[atacante,'Wisdom'])
     armas = pd.read_excel("Armas_Hechizos.xlsx")
-    if armas.at[arma,Tipo] == "H":
-        tirada_ataque = random.randit(0,20) + contendientes.at[atacante,Wisdom] + contendientes.at[atacante,bcompetencia]
+
+    #Obtención de los índices de los personajes y el arma
+    a = buscar_pers(atacante, contendientes)
+    d = buscar_pers(defensor, contendientes)
+    w = buscar_pers(arma, armas)    
+
+    #Tiradas de ataque y defensa
+    if armas.at[w,'Tipo'] == "H":
+        tirada_ataque = random.randint(0,20) + contendientes.at[a,'Wisdom'] #+ contendientes.at[atacante,bcompetencia]
     else:
-        tirada_ataque = random.randit(0,20) + contendientes.at[atacante,Wisdom] + contendientes.at[atacante,bcompetencia]
-    tirada_defensa = random.randit(0,20) + contendientes.at[defensor, "Clase de armadura"] #+ contendientes.at[atacante,bcompetencia]
-    print("La tirada de ataque es: " + tirada_ataque)
-    print("La tirada de ataque es: " + tirada_ataque)
+        tirada_ataque = random.randint(0,20) + contendientes.at[a,'Strength'] #+ contendientes.at[atacante,bcompetencia]
+    tirada_defensa = random.randint(0,20) + contendientes.at[d, "Clase de armadura"] #+ contendientes.at[atacante,bcompetencia]
+    print("La tirada de ataque es: " + str(tirada_ataque))
+    print("La tirada de defensa es: " + str(tirada_defensa))
+    
     if tirada_ataque < tirada_defensa:
         resultado = 0
         print("El ataque no ha tenido éxito")
     else:
         print("El ataque es exitoso!")
-        dados_damage = armas.at[arma,Damage]
-        print(dados_damage)
+        dados_damage = armas.at[a,'Damage']
         print("Daño:" + dados_damage)
-        for i in range(0,dados_damage[0]):
-            damage += random.randit(0,dados_damage[2])
-        print(damage)
+        print(dados_damage[0])
+        print(dados_damage[2])
+        for i in range(0,int(dados_damage[0])):
+            damage += random.randint(0,int(dados_damage[2]))
+        print(atacante + " ha infligido " + str(damage) + " puntos de daño a " + defensor)
 
-#atacar("Rampo Doyle", "cocodrilo1", "Bola de fuego")
+    #Actualización de los puntos de vida
+    contendientes.at[d, 'Health'] -= damage
+    print("Vida de " + defensor + ": " + str(contendientes.at[d, 'Health']))
+
+
+def buscar_pers(nombre, lista):
+        for i in range(0,lista.shape[0]+1):
+            if lista.at[i,'Nombre'] == nombre:
+                return i
+
+atacar('Rampo Doyle', 'Cocodrilo 1', 'Bola de fuego')
