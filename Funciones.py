@@ -9,6 +9,28 @@ import pandas as pd
 import os
 import time
 monte = pd.read_excel("Monstruos.xlsx")
+def pmenu(lista,pos,mapa):
+    nl=len(lista)
+    accion_no_selecionada=True
+    while accion_no_selecionada:
+        i=0
+        j=0
+        for i in range(nl):
+            print("-",i," "+lista[i])
+        opcion_elegida = input("\nElige un número: ")
+        opcion_elegida=int(float(opcion_elegida))
+#        for j in range(nl):
+        if lista[opcion_elegida] == "Atacar":
+            print("Opcion no disponible")
+            accion_no_selecionada=False
+        elif lista[opcion_elegida] == "Caminar":
+            accion_no_selecionada=False
+            aventura(pos,mapa)
+            ubicacion(pos,mapa)
+        elif lista[opcion_elegida] == "Salir":
+            accion_no_selecionada=False
+            return False                
+    return True
 def ubicacion(pos,mapa):
     #numero de ubicaciones que hay 
     nm=mapa.shape[0]
@@ -16,17 +38,15 @@ def ubicacion(pos,mapa):
     i=0
     t=0
     encontrado=False
-    while i<nm :
-        if mapa.at[i,'x']==pos[0]:
-            if mapa.at[i,'y']==pos[1]:
+    while i<nm and encontrado==False:
+        if mapa.at[i,'x']==pos[0] and  mapa.at[i,'y']==pos[1]:
                 encontrado=True#se interrumpe la busqueda
                 t=i
         i+=1
     #t es la id de la ubicacion
     print(mapa.at[t,'descripcion'])
     
-    return t
-def aventura(mapa,pos):
+def aventura(pos,mapa):
     dir=caminar()
     x=0
     y=0
