@@ -9,48 +9,62 @@ import pandas as pd
 import os
 import time
 #monte = pd.read_excel("Monstruos.xlsx")
-def encuentro(mapa,posicion,campodebatalla,personajes,mapademonstruos):
+def encuentro(mapa,posicion,campodebatalla,personajes,mapademonstruos,monstruos):
     idubicacion=ubicacion(posicion,mapa)
     print(mapa.at[idubicacion,'descripcion'])
     semillademonstruos=mapa.at[idubicacion,'idsm']
     semillademonstruos=int(float(semillademonstruos))
     if semillademonstruos > 0:
-        #buscamos la semilla de ese mapa en el mapa de monstruos 
-        i=0
-        continuar=True
-        while ((i < mapademonstruos.shape[0]) and continuar):
-            j=int(float(mapademonstruos.at[i,'IDS']))
-            if j==semillademonstruos:
-                indexdemapademonstruo=i
-                continuar=False
-            i+=1
-def sacarindexmonstruo(nombre,monstruo):
+        añadirp(personajes,campodebatalla)
+        ponermonstruosdemapademonstruos(mapademonstruos,mapa.at[idubicacion,'idsm'],campodebatalla,monstruos)
+        
+def sacarindexmonstruo(nombre,monstruo):#devuelve un int,funciona
     i=0
-    
-    for i in range(monstruo.shape[0]):
-        if nombre==monstruo.at[i,'Monstruo']:
+    nombre=str(nombre)
+    k=0
+    continuar=True
+    while i <(monstruo.shape[0]) and continuar:
+        if nombre == monstruo.at[i,'Monstruo']:
+            k=i
+            continuar=False
+        i+=1
+    return k
+def ponermonstruosdemapademonstruos(mapademonstruos,identificacionmapamon,campodebatalla,dataframemonstruos):
+    indexmapa=transformaridsenindex(identificacionmapamon,mapademonstruos)
+    numeromonstruos=mapademonstruos.shape[1]-1#☺le restamos uno de la semilla
+    listademonstruos=list(mapademonstruos)#crea array,hay que quitar el del id
+    i=1
+    for i in range(numeromonstruos):
+        j=1
+        p=str(listademonstruos[i+1])
+        k=mapademonstruos.at[indexmapa,listademonstruos[i]]
+        idm=sacarindexmonstruo(p,dataframemonstruos)
+        for j in range(k):
+            print("Ha aparecido un",p)
+            añadirm(campodebatalla,dataframemonstruos,idm,i+1)
+
+def transformaridsenindex(n,mapademonstruos):#devuelve int
+    continuar=True
+    i=0
+    lm=mapademonstruos.shape[0]
+    while i<lm and continuar:
+        if mapademonstruos.at[i,'IDS']==n:
             return i
+        i+=1
 def añadirsm(campodebatalla,semillademonstruo,monstruos,idsemilla,numero_de_jugadores):
     #sacamos el numero de monstruos que existen,quitamos una columna que es la del ID
     nm=semillademonstruo.shape[1]-1
     i=0
     listademonstruos=list(semillademonstruo)
     numeromonstruos=numero_de_jugadores
-    print("va")
-
     while i < nm:
         idmonstruo=sacarindexmonstruo(listademonstruos[i],monstruos)
-        print("va")
-
         para_añadir=int(float(semillademonstruo.at[idsemilla,listademonstruos[i]]))
-        print("va")
         for j in range(para_añadir):
-            print("va")
             añadirm(campodebatalla,monstruos,idmonstruo,numeromonstruos)
-            print("va")
-
             numeromonstruos+=1
-def pmenu(lista,pos,mapa):
+def pmenu(lista,pos,mapa,campodebatalla,personaje,mapamonstruos,monstruos):
+#    mapa,posicion,campodebatalla,personajes,mapademonstruos,monstruos
     nl=len(lista)
     accion_no_selecionada=True
     while accion_no_selecionada:
@@ -68,6 +82,8 @@ def pmenu(lista,pos,mapa):
             accion_no_selecionada=False
             aventura(pos,mapa)
             ubicacion(pos,mapa)
+            encuentro(mapa,pos,campodebatalla,personaje,mapamonstruos,monstruos)
+            
         elif lista[opcion_elegida] == "Salir":
             accion_no_selecionada=False
             return False                
@@ -147,13 +163,27 @@ def quitarvidamonstruo(bf,idm,pv):
     bf.at[idm,cbf[1]]=bf.at[idm,cbf[1]]-pv
     if bf.at[idm,cbf[1]]<1:
         bf.drop([idm],inplace=True)#se elimina la fila
-
+def añadirmonstruopornombre(bfdf,monte,nombre,j):#el idm identifica al mons,el nv no se como ponerlo,el numero de moustro que habra en el cam
+    cm=list(monte)
+    idm=sacarindexmonstruo(nombre,monte)
+    nombre=monte.at[idm,cm[0]]
+    cbf=list(bfdf)
+    bfdf.at[j,cbf[0]]=nombre
+    min=monte.at[0,cm[1]]
+    max=monte.at[idm,cm[3]]
+    pvm=random.randint(min,max-1)
+    bfdf.at[j,cbf[1]]=pvm
+    bfdf.at[j,cbf[2]]=pvm
+    i=3
+    while i <37:
+        bfdf.at[j,cbf[i]]=monte.at[idm,cbf[i]]
+        i+=1
+        
 def añadirm(bfdf,monte,idm,j):#el idm identifica al mons,el nv no se como ponerlo,el numero de moustro que habra en el cam
     cm=list(monte)
     nombre=monte.at[idm,cm[0]]
     cbf=list(bfdf)
     bfdf.at[j,cbf[0]]=nombre
-    print("va")
     min=monte.at[0,cm[1]]
     max=monte.at[idm,cm[3]]
     pvm=random.randint(min,max-1)
@@ -299,4 +329,4 @@ def buscar_pers(nombre, lista):
             if lista.at[i,'Nombre'] == nombre:
                 return i
 
-atacar('Rampo Doyle', 'Cocodrilo 1', 'Bola de fuego')
+#atacar('Rampo Doyle', 'Cocodrilo 1', 'Bola de fuego')

@@ -11,6 +11,7 @@ import Funciones as f
 acciones=['Atacar',"Caminar","Salir"]
 #1acciones[0]
 #Insertamos dataframe
+ubi=[0,0]
 print("Bienvenido,cargando personajes...")
 personajes = pd.read_excel("Personajes.xlsx")
 print("Tu personaje  "+personajes.at[0,'Nombre']+" ya se ha cargado\nCargando monstruos...")
@@ -18,16 +19,10 @@ monstruos = pd.read_excel("Monstruos.xlsx")
 mp=pd.read_excel("Mapa.xlsx")
 campodebatalla=pd.read_excel("Campo de batalla.xlsx")
 mapademonstruos=pd.read_excel("Mapa de Monstruos.xlsx")
-
-ubi=[0,0]
-#while i<4:
-#    f.aventura(mp,ubi)
-#    f.ubicacion(ubi,mp)
-#    i+=1
-#continuar=True
-#while continuar:
-#   continuar=f.pmenu(acciones,ubi,mp)
-f.añadirsm(campodebatalla,mapademonstruos,monstruos,0,0)
-f.sacarindexmonstruo("Araña gigante",monstruos)
-listam=list(mapademonstruos)
-p=mapademonstruos.at[0,listam[1]]
+#k=f.sacarindexmonstruo(t,monstruos)
+#f.añadirmonstruopornombre(campodebatalla,monstruos,t,0)
+#f.ponermonstruosdemapademonstruos(mapademonstruos,2,campodebatalla,monstruos)
+#f.encuentro(mp,ubi,campodebatalla,personajes,mapademonstruos,monstruos)
+c=True
+while c:
+    c=f.pmenu(acciones,ubi,mp,campodebatalla,personajes,mapademonstruos,monstruos)
