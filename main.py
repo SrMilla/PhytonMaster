@@ -9,6 +9,7 @@ import pandas as pd
 import os
 import Funciones as f
 p=f.sacar_lista_de_enemigos(campodebatalla)
+f.seleccionar_objetivo(p)
 acciones=['Atacar',"Caminar","Salir"]
 lista=[]
 lista[0]=1

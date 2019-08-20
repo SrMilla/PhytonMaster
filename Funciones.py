@@ -267,6 +267,7 @@ def competir(personaje1,personaje2,cualidad,cualidad2):
         print("Has fracasado")
     if Tirada>Tirada2 :
         resultado=1("Has triunfado")
+#aqui en vez de cargar desde xlsx lo suyo seria pasarlo en parametro ,para no estar guardando y cargando todo el rato
 def atacar(atacante,defensor,arma):
     damage = 0
     #Carga de los dataframes
@@ -312,4 +313,17 @@ def sacar_lista_de_enemigos(campodebatalla):
     for i in range(campodebatalla.shape[0]-1):
         lista[i]=campodebatalla.at[i+1,'Nombre']
     return lista
+def seleccionar_objetivo(lista_enemigos):
+    print("¿A quien deseas atacar")
+    accion_no_seleccionada=True
+    while accion_no_seleccionada:
+        for i in range (len(lista_enemigos)):
+            print(" -",i,lista_enemigos[i])
+        opcion_elegida = input("\nElige un objetivo: ")
+        opcion_elegida=int(float(opcion_elegida))
+        if opcion_elegida<len(lista_enemigos)-1 and opcion_elegida>0:
+            atacar(lista_enemigos[opcion_elegida])
+
+        
+    
 #atacar('Rampo Doyle', 'Cocodrilo 1', 'Bola de fuego')
