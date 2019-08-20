@@ -17,7 +17,6 @@ def encuentro(mapa,posicion,campodebatalla,personajes,mapademonstruos,monstruos)
     if semillademonstruos > 0:
         añadirp(personajes,campodebatalla)
         ponermonstruosdemapademonstruos(mapademonstruos,mapa.at[idubicacion,'idsm'],campodebatalla,monstruos)
-        
 def sacarindexmonstruo(nombre,monstruo):#devuelve un int,funciona
     i=0
     nombre=str(nombre)
@@ -41,8 +40,7 @@ def ponermonstruosdemapademonstruos(mapademonstruos,identificacionmapamon,campod
         idm=sacarindexmonstruo(p,dataframemonstruos)
         for j in range(k):
             print("Ha aparecido un",p)
-            añadirm(campodebatalla,dataframemonstruos,idm,i+1)
-
+            añadirm(campodebatalla,dataframemonstruos,idm,i+1,j+1)
 def transformaridsenindex(n,mapademonstruos):#devuelve int
     continuar=True
     i=0
@@ -61,7 +59,7 @@ def añadirsm(campodebatalla,semillademonstruo,monstruos,idsemilla,numero_de_jug
         idmonstruo=sacarindexmonstruo(listademonstruos[i],monstruos)
         para_añadir=int(float(semillademonstruo.at[idsemilla,listademonstruos[i]]))
         for j in range(para_añadir):
-            añadirm(campodebatalla,monstruos,idmonstruo,numeromonstruos)
+            añadirm(campodebatalla,monstruos,idmonstruo,numeromonstruos,j)
             numeromonstruos+=1
 def pmenu(lista,pos,mapa,campodebatalla,personaje,mapamonstruos,monstruos):
 #    mapa,posicion,campodebatalla,personajes,mapademonstruos,monstruos
@@ -88,7 +86,6 @@ def pmenu(lista,pos,mapa,campodebatalla,personaje,mapamonstruos,monstruos):
             accion_no_selecionada=False
             return False                
     return True
-
 def ubicacion(pos,mapa):
     #numero de ubicaciones que hay 
     nm=mapa.shape[0]
@@ -104,7 +101,6 @@ def ubicacion(pos,mapa):
     return t
     #t es la id de la ubicacion
     #print(mapa.at[t,'descripcion'])
-    
 def aventura(pos,mapa):
     dir=caminar()
     x=0
@@ -133,16 +129,6 @@ def aventura(pos,mapa):
     pos[0]=pos[0]+x
     pos[1]=pos[1]+y
     print("Ahora estas en",pos[0],pos[1])
-#def capitulo1(pdf,bfdf,mdf,mp):
-#    print("Te encuentras en la nada")
-#    
-#    añadirp(pdf,bfdf)
-#    t=caminar()
-#    i=0
-#    while i < t:
-#        añadirm(bfdf,0,i+1)
-#        i+=1
-#    print("Oh no te has encontrado ",t," arañas\n Is time to fight")
 def añadirp(pdf,bfdf):
     cp=list(pdf)
     cbf=list(bfdf)
@@ -157,7 +143,6 @@ def añadirp(pdf,bfdf):
             bfdf.at[i,cbf[j]]=pdf.at[i,cbf[j]]
             j+=1
         i+=1
-            
 def quitarvidamonstruo(bf,idm,pv):
     cbf=list(bf)
     bf.at[idm,cbf[1]]=bf.at[idm,cbf[1]]-pv
@@ -178,11 +163,12 @@ def añadirmonstruopornombre(bfdf,monte,nombre,j):#el idm identifica al mons,el 
     while i <37:
         bfdf.at[j,cbf[i]]=monte.at[idm,cbf[i]]
         i+=1
-        
-def añadirm(bfdf,monte,idm,j):#el idm identifica al mons,el nv no se como ponerlo,el numero de moustro que habra en el cam
+def añadirm(bfdf,monte,idm,j,re):#el idm identifica al mons,el nv no se como ponerlo,el numero de moustro que habra en el cam
     cm=list(monte)
     nombre=monte.at[idm,cm[0]]
     cbf=list(bfdf)
+    re=str(re)
+    nombre=nombre+" "+re
     bfdf.at[j,cbf[0]]=nombre
     min=monte.at[0,cm[1]]
     max=monte.at[idm,cm[3]]
@@ -194,7 +180,6 @@ def añadirm(bfdf,monte,idm,j):#el idm identifica al mons,el nv no se como poner
     while i <37:
         bfdf.at[j,cbf[i]]=monte.at[idm,cbf[i]]
         i+=1
-        
 def menu():
     #os.system('cls')
     partida_pausa = 1
@@ -223,13 +208,11 @@ def menu():
                 else: 
                         print("")
                         input("DING DONG YOU ARE MR WRONG...")
-                        
 def actualizar(personajes,monstruos):
        personajes = pd.read_excel("Personajes.xlsx")
        monstruos = pd.read_excel("Monstruos.xlsx")
        print("La lista de jugadores y monstruos ha sido actualizada")
        print("\n Volviendo al menu principal")
-       
 def caminar():
     partida_pausa = 1
     while partida_pausa==1:
@@ -276,7 +259,6 @@ def caminar():
         partida_pausa=0
         direccion=int(float(direccion))
         return  direccion
-    
 def competir(personaje1,personaje2,cualidad,cualidad2):
     Tirada = random.randit(0,20)+personajes.at[personaje1,cualidad]
     Tirada2 = random.randit(0,20)+personajes.at[personaje2,cualidad]
@@ -285,8 +267,7 @@ def competir(personaje1,personaje2,cualidad,cualidad2):
         print("Has fracasado")
     if Tirada>Tirada2 :
         resultado=1("Has triunfado")
-
-def atacar(atacante, defensor, arma):
+def atacar(atacante,defensor,arma):
     damage = 0
     #Carga de los dataframes
     contendientes = pd.read_excel("Campo de batalla.xlsx")
@@ -322,11 +303,13 @@ def atacar(atacante, defensor, arma):
     #Actualización de los puntos de vida
     contendientes.at[d, 'Health'] -= damage
     print("Vida de " + defensor + ": " + str(contendientes.at[d, 'Health']))
-
-
 def buscar_pers(nombre, lista):
         for i in range(0,lista.shape[0]+1):
             if lista.at[i,'Nombre'] == nombre:
                 return i
-
+def sacar_lista_de_enemigos(campodebatalla):
+    lista=[None]*(campodebatalla.shape[0]-1)
+    for i in range(campodebatalla.shape[0]-1):
+        lista[i]=campodebatalla.at[i+1,'Nombre']
+    return lista
 #atacar('Rampo Doyle', 'Cocodrilo 1', 'Bola de fuego')

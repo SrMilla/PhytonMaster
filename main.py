@@ -8,7 +8,10 @@ import random
 import pandas as pd
 import os
 import Funciones as f
+p=f.sacar_lista_de_enemigos(campodebatalla)
 acciones=['Atacar',"Caminar","Salir"]
+lista=[]
+lista[0]=1
 #1acciones[0]
 #Insertamos dataframe
 ubi=[0,0]
