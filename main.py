@@ -8,8 +8,8 @@ import random
 import pandas as pd
 import os
 import Funciones as f
-p=f.sacar_lista_de_enemigos(campodebatalla)
-f.seleccionar_objetivo(p)
+p=f.sacar_lista_de_enemigos(campodebatalla,aramas,'Bola de fuego')
+f.seleccionar_objetivo(campodebatalla,aramas,'Bola de fuego')
 acciones=['Atacar',"Caminar","Salir"]
 lista=[]
 lista[0]=1
@@ -23,10 +23,11 @@ monstruos = pd.read_excel("Monstruos.xlsx")
 mp=pd.read_excel("Mapa.xlsx")
 campodebatalla=pd.read_excel("Campo de batalla.xlsx")
 mapademonstruos=pd.read_excel("Mapa de Monstruos.xlsx")
+aramas=pd.read_excel("Armas_Hechizos.xlsx")
 #k=f.sacarindexmonstruo(t,monstruos)
 #f.añadirmonstruopornombre(campodebatalla,monstruos,t,0)
 #f.ponermonstruosdemapademonstruos(mapademonstruos,2,campodebatalla,monstruos)
 #f.encuentro(mp,ubi,campodebatalla,personajes,mapademonstruos,monstruos)
 c=True
 while c:
-    c=f.pmenu(acciones,ubi,mp,campodebatalla,personajes,mapademonstruos,monstruos)
+    c=f.pmenu(acciones,ubi,mp,campodebatalla,personajes,mapademonstruos,monstruos,aramas,'Bola de fuego')

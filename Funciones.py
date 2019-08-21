@@ -61,7 +61,7 @@ def añadirsm(campodebatalla,semillademonstruo,monstruos,idsemilla,numero_de_jug
         for j in range(para_añadir):
             añadirm(campodebatalla,monstruos,idmonstruo,numeromonstruos,j)
             numeromonstruos+=1
-def pmenu(lista,pos,mapa,campodebatalla,personaje,mapamonstruos,monstruos):
+def pmenu(lista,pos,mapa,campodebatalla,personaje,mapamonstruos,monstruos,dataframearmas,arma):
 #    mapa,posicion,campodebatalla,personajes,mapademonstruos,monstruos
     nl=len(lista)
     accion_no_selecionada=True
@@ -75,6 +75,7 @@ def pmenu(lista,pos,mapa,campodebatalla,personaje,mapamonstruos,monstruos):
 #        for j in range(nl):
         if lista[opcion_elegida] == "Atacar":
             print("Opcion en desarollo")
+            seleccionar_objetivo(campodebatalla,dataframearmas,arma)
             accion_no_selecionada=False
         elif lista[opcion_elegida] == "Caminar":
             accion_no_selecionada=False
@@ -268,12 +269,9 @@ def competir(personaje1,personaje2,cualidad,cualidad2):
     if Tirada>Tirada2 :
         resultado=1("Has triunfado")
 #aqui en vez de cargar desde xlsx lo suyo seria pasarlo en parametro ,para no estar guardando y cargando todo el rato
-def atacar(atacante,defensor,arma):
+def atacar(atacante,defensor,arma,contendientes,armas):
     damage = 0
     #Carga de los dataframes
-    contendientes = pd.read_excel("Campo de batalla.xlsx")
-    armas = pd.read_excel("Armas_Hechizos.xlsx")
-
     #Obtención de los índices de los personajes y el arma
     a = buscar_pers(atacante, contendientes)
     d = buscar_pers(defensor, contendientes)
@@ -313,7 +311,8 @@ def sacar_lista_de_enemigos(campodebatalla):
     for i in range(campodebatalla.shape[0]-1):
         lista[i]=campodebatalla.at[i+1,'Nombre']
     return lista
-def seleccionar_objetivo(lista_enemigos):
+def seleccionar_objetivo(campodebatalla,dataframearmas,arma):
+    lista_enemigos=sacar_lista_de_enemigos(campodebatalla)
     print("¿A quien deseas atacar")
     accion_no_seleccionada=True
     while accion_no_seleccionada:
@@ -321,9 +320,9 @@ def seleccionar_objetivo(lista_enemigos):
             print(" -",i,lista_enemigos[i])
         opcion_elegida = input("\nElige un objetivo: ")
         opcion_elegida=int(float(opcion_elegida))
-        if opcion_elegida<len(lista_enemigos)-1 and opcion_elegida>0:
-            atacar(lista_enemigos[opcion_elegida])
-
+        if opcion_elegida<=len(lista_enemigos)-1 and opcion_elegida>=0:
+            atacar(campodebatalla.at[0,'Nombre'],lista_enemigos[opcion_elegida],arma,campodebatalla,dataframearmas)
+            accion_no_seleccionada=False
         
     
 #atacar('Rampo Doyle', 'Cocodrilo 1', 'Bola de fuego')
