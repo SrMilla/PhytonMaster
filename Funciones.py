@@ -323,6 +323,9 @@ def seleccionar_objetivo(campodebatalla,dataframearmas,arma):
         if opcion_elegida<=len(lista_enemigos)-1 and opcion_elegida>=0:
             atacar(campodebatalla.at[0,'Nombre'],lista_enemigos[opcion_elegida],arma,campodebatalla,dataframearmas)
             accion_no_seleccionada=False
+        else:
+            print("Objetivo no localizado")
         
+def actualizarlistadeacciones():
     
 #atacar('Rampo Doyle', 'Cocodrilo 1', 'Bola de fuego')
