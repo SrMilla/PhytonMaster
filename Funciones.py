@@ -9,6 +9,14 @@ import pandas as pd
 import os
 import time
 #monte = pd.read_excel("Monstruos.xlsx")
+
+def init(): #?     
+    monstruos = pd.read_excel("Monstruos.xlsx")
+    mp=pd.read_excel("Mapa.xlsx")
+    campodebatalla=pd.read_excel("Campo de batalla.xlsx")
+    mapademonstruos=pd.read_excel("Mapa de Monstruos.xlsx")
+    armas=pd.read_excel("Armas_Hechizos.xlsx")
+
 def encuentro(mapa,posicion,campodebatalla,personajes,mapademonstruos,monstruos):
     idubicacion=ubicacion(posicion,mapa)
     print(mapa.at[idubicacion,'descripcion'])
@@ -17,6 +25,7 @@ def encuentro(mapa,posicion,campodebatalla,personajes,mapademonstruos,monstruos)
     if semillademonstruos > 0:
         añadirp(personajes,campodebatalla)
         ponermonstruosdemapademonstruos(mapademonstruos,mapa.at[idubicacion,'idsm'],campodebatalla,monstruos)
+        
 def sacarindexmonstruo(nombre,monstruo):#devuelve un int,funciona
     i=0
     nombre=str(nombre)
@@ -28,6 +37,7 @@ def sacarindexmonstruo(nombre,monstruo):#devuelve un int,funciona
             continuar=False
         i+=1
     return k
+
 def ponermonstruosdemapademonstruos(mapademonstruos,identificacionmapamon,campodebatalla,dataframemonstruos):
     indexmapa=transformaridsenindex(identificacionmapamon,mapademonstruos)
     numeromonstruos=mapademonstruos.shape[1]-1#☺le restamos uno de la semilla
@@ -41,6 +51,7 @@ def ponermonstruosdemapademonstruos(mapademonstruos,identificacionmapamon,campod
         for j in range(k):
             print("Ha aparecido un",p)
             añadirm(campodebatalla,dataframemonstruos,idm,i+1,j+1)
+
 def transformaridsenindex(n,mapademonstruos):#devuelve int
     continuar=True
     i=0
@@ -49,6 +60,7 @@ def transformaridsenindex(n,mapademonstruos):#devuelve int
         if mapademonstruos.at[i,'IDS']==n:
             return i
         i+=1
+
 def añadirsm(campodebatalla,semillademonstruo,monstruos,idsemilla,numero_de_jugadores):
     #sacamos el numero de monstruos que existen,quitamos una columna que es la del ID
     nm=semillademonstruo.shape[1]-1
@@ -61,6 +73,7 @@ def añadirsm(campodebatalla,semillademonstruo,monstruos,idsemilla,numero_de_jug
         for j in range(para_añadir):
             añadirm(campodebatalla,monstruos,idmonstruo,numeromonstruos,j)
             numeromonstruos+=1
+
 def pmenu(lista,pos,mapa,campodebatalla,personaje,mapamonstruos,monstruos,dataframearmas,arma):
 #    mapa,posicion,campodebatalla,personajes,mapademonstruos,monstruos
     nl=len(lista)
@@ -82,7 +95,7 @@ def pmenu(lista,pos,mapa,campodebatalla,personaje,mapamonstruos,monstruos,datafr
             accion_no_selecionada=False
         elif lista[opcion_elegida] == "Salir y guardar":
             print("Guardando progreso...")
-            campodebatalla.to_excel('Campo de batalla.xlsx',sheet_name='Campo de batalla')
+            
             print("Ya esta guardado")
         elif lista[opcion_elegida] == "Caminar":
             accion_no_selecionada=False
@@ -94,6 +107,7 @@ def pmenu(lista,pos,mapa,campodebatalla,personaje,mapamonstruos,monstruos,datafr
             accion_no_selecionada=False
             return False                
     return True
+
 def ubicacion(pos,mapa):
     #numero de ubicaciones que hay 
     nm=mapa.shape[0]
@@ -109,6 +123,7 @@ def ubicacion(pos,mapa):
     return t
     #t es la id de la ubicacion
     #print(mapa.at[t,'descripcion'])
+
 def aventura(pos,mapa):
     dir=caminar()
     x=0
@@ -137,6 +152,7 @@ def aventura(pos,mapa):
     pos[0]=pos[0]+x
     pos[1]=pos[1]+y
     print("Ahora estas en",pos[0],pos[1])
+
 def añadirp(pdf,bfdf):
     cp=list(pdf)
     cbf=list(bfdf)
@@ -151,11 +167,13 @@ def añadirp(pdf,bfdf):
             bfdf.at[i,cbf[j]]=pdf.at[i,cbf[j]]
             j+=1
         i+=1
+
 def quitarvidamonstruo(bf,idm,pv):
     cbf=list(bf)
     bf.at[idm,cbf[1]]=bf.at[idm,cbf[1]]-pv
     if bf.at[idm,cbf[1]]<1:
         bf.drop([idm],inplace=True)#se elimina la fila
+
 def añadirmonstruopornombre(bfdf,monte,nombre,j):#el idm identifica al mons,el nv no se como ponerlo,el numero de moustro que habra en el cam
     cm=list(monte)
     idm=sacarindexmonstruo(nombre,monte)
@@ -171,6 +189,7 @@ def añadirmonstruopornombre(bfdf,monte,nombre,j):#el idm identifica al mons,el 
     while i <37:
         bfdf.at[j,cbf[i]]=monte.at[idm,cbf[i]]
         i+=1
+
 def añadirm(bfdf,monte,idm,j,re):#el idm identifica al mons,el nv no se como ponerlo,el numero de moustro que habra en el cam
     cm=list(monte)
     nombre=monte.at[idm,cm[0]]
@@ -188,11 +207,13 @@ def añadirm(bfdf,monte,idm,j,re):#el idm identifica al mons,el nv no se como po
     while i <37:
         bfdf.at[j,cbf[i]]=monte.at[idm,cbf[i]]
         i+=1
+
 def actualizar(personajes,monstruos):
        personajes = pd.read_excel("Personajes.xlsx")
        monstruos = pd.read_excel("Monstruos.xlsx")
        print("La lista de jugadores y monstruos ha sido actualizada")
        print("\n Volviendo al menu principal")
+
 def caminar():
     partida_pausa = 1
     while partida_pausa==1:
@@ -239,6 +260,7 @@ def caminar():
         partida_pausa=0
         direccion=int(float(direccion))
         return  direccion
+
 def competir(personaje1,personaje2,cualidad,cualidad2):
     Tirada = random.randit(0,20)+personajes.at[personaje1,cualidad]
     Tirada2 = random.randit(0,20)+personajes.at[personaje2,cualidad]
@@ -247,6 +269,7 @@ def competir(personaje1,personaje2,cualidad,cualidad2):
         print("Has fracasado")
     if Tirada>Tirada2 :
         resultado=1("Has triunfado")
+
 #aqui en vez de cargar desde xlsx lo suyo seria pasarlo en parametro ,para no estar guardando y cargando todo el rato
 def atacar(atacante,defensor,arma,contendientes,armas):
     damage = 0
@@ -281,25 +304,46 @@ def atacar(atacante,defensor,arma,contendientes,armas):
     #Actualización de los puntos de vida
     contendientes.at[d, 'Health'] -= damage
     print("Vida de " + defensor + ": " + str(contendientes.at[d, 'Health']))
+
 def buscar_pers(nombre, lista):
         for i in range(0,lista.shape[0]+1):
             if lista.at[i,'Nombre'] == nombre:
                 return i
-def sacar_lista_de_enemigos(campodebatalla):
-    lista=[None]*(campodebatalla.shape[0]-1)
-    for i in range(campodebatalla.shape[0]-1):
-        lista[i]=campodebatalla.at[i+1,'Nombre']
+
+def sacar_lista(dataframe):
+    lista=[None]*(dataframe.shape[0])
+    for i in range(dataframe.shape[0]):
+        lista[i]=dataframe.at[i,'Nombre']
     return lista
+
+def seleccion_arma(armas):
+    lista_armas = sacar_lista(armas)
+    print("¿Qué deseas utilizar?")
+    while True:
+        print("Estas son tus armas:")
+        for i in range (len(lista_armas)):
+            print(" " + str(i+1) + " - " + armas.at[i, "Nombre"] + " (" + armas.at[i, "Tipo"] + ").> " + armas.at[i, "Damage"])
+        opcion_elegida = input("\nElige un arma: ")
+        opcion_elegida=int(float(opcion_elegida)-1)
+        if opcion_elegida<len(lista_armas) and opcion_elegida>=0:
+            print("Has elegido utilizar tu " + lista_armas[opcion_elegida])
+            return lista_armas[opcion_elegida]
+        else:
+            print("No tienes ese arma")
+    return arma
+    
+
 def seleccionar_objetivo(campodebatalla,dataframearmas,arma):
-    lista_enemigos=sacar_lista_de_enemigos(campodebatalla)
-    print("¿A quien deseas atacar")
+    lista_enemigos=sacar_lista(campodebatalla)
+    print("¿A quien deseas atacar?")
     accion_no_seleccionada=True
     while accion_no_seleccionada:
         for i in range (len(lista_enemigos)):
-            print(" -",i,lista_enemigos[i])
+            print(" ",i+1," -",lista_enemigos[i])
         opcion_elegida = input("\nElige un objetivo: ")
-        opcion_elegida=int(float(opcion_elegida))
-        if opcion_elegida<=len(lista_enemigos)-1 and opcion_elegida>=0:
+        opcion_elegida=int(float(opcion_elegida)-1)
+        if opcion_elegida<len(lista_enemigos) and opcion_elegida>=0:
+            print("Vas a atacar a ", lista_enemigos[opcion_elegida])
             atacar(campodebatalla.at[0,'Nombre'],lista_enemigos[opcion_elegida],arma,campodebatalla,dataframearmas)
             accion_no_seleccionada=False
         else:
@@ -317,4 +361,13 @@ def actualizarlistadeacciones(lista,campodebatalla):
     lista.append('Estado')
     lista.append('Salir')
     lista.append('Salir y guardar')
-#atacar('Rampo Doyle', 'Cocodrilo 1', 'Bola de fuego')
+
+def guardar_salir(armas,contendientes, mapa, ubi):
+    contendientes.to_excel('Campo de batalla.xlsx',sheet_name='Campo de batalla')
+    mapa.to_excel('Mapa.xlsx',sheet_name='Mapa')
+
+
+campodebatalla=pd.read_excel("Campo de batalla.xlsx")    
+armas=pd.read_excel("Armas_Hechizos.xlsx")
+a = seleccion_arma(armas)
+seleccionar_objetivo(campodebatalla,armas, a)
