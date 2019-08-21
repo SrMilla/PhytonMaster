@@ -91,7 +91,7 @@ def pmenu(lista,pos,mapa,campodebatalla,personaje,mapamonstruos,monstruos,datafr
             seleccionar_objetivo(campodebatalla,dataframearmas,arma)
             accion_no_selecionada=False
         elif lista[opcion_elegida] == "Estado":
-            print("Tu vida es de:",campodebatalla.at[0,'Healt'])
+            print("Tu vida es de:",campodebatalla.at[0,'Health'])
             accion_no_selecionada=False
         elif lista[opcion_elegida] == "Salir y guardar":
             print("Guardando progreso...")
@@ -323,10 +323,10 @@ def seleccion_arma(armas):
         print("Estas son tus armas:")
         for i in range (len(lista_armas)):
             print(" " + str(i+1) + " - " + armas.at[i, "Nombre"] + " (" + armas.at[i, "Tipo"] + ").> " + armas.at[i, "Damage"])
-        opcion_elegida = input("\nElige un arma: ")
+        opcion_elegida = input("Elige un arma: ")
         opcion_elegida=int(float(opcion_elegida)-1)
         if opcion_elegida<len(lista_armas) and opcion_elegida>=0:
-            print("Has elegido utilizar tu " + lista_armas[opcion_elegida])
+            print("Has elegido utilizar tu " + lista_armas[opcion_elegida] + "\n")
             return lista_armas[opcion_elegida]
         else:
             print("No tienes ese arma")
@@ -338,10 +338,10 @@ def seleccionar_objetivo(campodebatalla,dataframearmas,arma):
     print("¿A quien deseas atacar?")
     accion_no_seleccionada=True
     while accion_no_seleccionada:
-        for i in range (len(lista_enemigos)):
-            print(" ",i+1," -",lista_enemigos[i])
-        opcion_elegida = input("\nElige un objetivo: ")
-        opcion_elegida=int(float(opcion_elegida)-1)
+        for i in range (1, len(lista_enemigos)):
+            print(" ",i," -",lista_enemigos[i])
+        opcion_elegida = input("Elige un objetivo: ")
+        opcion_elegida=int(float(opcion_elegida))
         if opcion_elegida<len(lista_enemigos) and opcion_elegida>=0:
             print("Vas a atacar a ", lista_enemigos[opcion_elegida])
             atacar(campodebatalla.at[0,'Nombre'],lista_enemigos[opcion_elegida],arma,campodebatalla,dataframearmas)
