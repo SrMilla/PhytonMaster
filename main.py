@@ -8,9 +8,11 @@ import random
 import pandas as pd
 import os
 import Funciones as f
+campodebatalla.shape[0]
 p=f.sacar_lista_de_enemigos(campodebatalla,aramas,'Bola de fuego')
 f.seleccionar_objetivo(campodebatalla,aramas,'Bola de fuego')
 acciones=['Atacar',"Caminar","Salir"]
+f.actualizarlistadeacciones(acciones,campodebatalla)
 lista=[]
 lista[0]=1
 #1acciones[0]

@@ -77,6 +77,13 @@ def pmenu(lista,pos,mapa,campodebatalla,personaje,mapamonstruos,monstruos,datafr
             print("Opcion en desarollo")
             seleccionar_objetivo(campodebatalla,dataframearmas,arma)
             accion_no_selecionada=False
+        elif lista[opcion_elegida] == "Estado":
+            print("Tu vida es de:",campodebatalla.at[0,'Healt'])
+            accion_no_selecionada=False
+        elif lista[opcion_elegida] == "Salir y guardar":
+            print("Guardando progreso...")
+            campodebatalla.to_excel('Campo de batalla.xlsx',sheet_name='Campo de batalla')
+            print("Ya esta guardado")
         elif lista[opcion_elegida] == "Caminar":
             accion_no_selecionada=False
             aventura(pos,mapa)
@@ -181,34 +188,6 @@ def añadirm(bfdf,monte,idm,j,re):#el idm identifica al mons,el nv no se como po
     while i <37:
         bfdf.at[j,cbf[i]]=monte.at[idm,cbf[i]]
         i+=1
-def menu():
-    #os.system('cls')
-    partida_pausa = 1
-    while partida_pausa == 1:
-            print ("Selecciona una opción")
-            print ("\t1 - Actualizar ")
-            print ("\t2 - Empezar partida")
-            print ("\t3 - salir")
-            opcion_elegida = 0
-            while opcion_elegida == 0:
-                opcion = input("Qué deseas hacer? \nElige un número: ")
-                if opcion=="1":
-                        print("")
-                        input("Has seleccionado actualizar")
-                        actualizar()
-                        opcion_elegida = 1
-                elif opcion=="2":
-                        print("")
-                        input("Empezando partida")
-                        opcion_elegida = 1
-                        partida_pausa = 0
-                elif opcion=="3":
-                        print("Saliendo de la partida")
-                        opcion_elegida = 1
-                        partida_pausa = 0
-                else: 
-                        print("")
-                        input("DING DONG YOU ARE MR WRONG...")
 def actualizar(personajes,monstruos):
        personajes = pd.read_excel("Personajes.xlsx")
        monstruos = pd.read_excel("Monstruos.xlsx")
@@ -326,6 +305,16 @@ def seleccionar_objetivo(campodebatalla,dataframearmas,arma):
         else:
             print("Objetivo no localizado")
         
-def actualizarlistadeacciones():
-    
+def actualizarlistadeacciones(lista,campodebatalla):
+    del lista[:]
+    if campodebatalla.shape[0]>1:#significa que hay enemigos
+        lista.append('Atacar')
+        lista.append('Huir')
+#    if objetos.shape[0]>0:
+#        lista.append('Usar objeto')
+    if campodebatalla.shape[0]<1:
+        lista.append('Caminar')
+    lista.append('Estado')
+    lista.append('Salir')
+    lista.append('Salir y guardar')
 #atacar('Rampo Doyle', 'Cocodrilo 1', 'Bola de fuego')
