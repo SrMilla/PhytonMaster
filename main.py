@@ -27,13 +27,8 @@ print("Tu personaje  "+personajes.at[0,'Nombre']+" ya se ha cargado\nCargando mo
 
 #p=f.sacar_lista_de_enemigos(campodebatalla)
 #f.seleccionar_objetivo(campodebatalla,armas,'Bola de fuego')
-f.actualizarlistadeacciones(acciones,campodebatalla)
-
-
 #k=f.sacarindexmonstruo(t,monstruos)
 #f.añadirmonstruopornombre(campodebatalla,monstruos,t,0)
 #f.ponermonstruosdemapademonstruos(mapademonstruos,2,campodebatalla,monstruos)
 #f.encuentro(mp,ubi,campodebatalla,personajes,mapademonstruos,monstruos)
-c=True
-while c:
-    c=f.pmenu(acciones,ubi,mp,campodebatalla,personajes,mapademonstruos,monstruos,armas,'Bola de fuego')
+f.pmenu(acciones,ubi,mp,campodebatalla,personajes,mapademonstruos,monstruos,armas,'Bola de fuego')

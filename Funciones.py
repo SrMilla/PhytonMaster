@@ -78,6 +78,8 @@ def pmenu(lista,pos,mapa,campodebatalla,personaje,mapamonstruos,monstruos,datafr
 #    mapa,posicion,campodebatalla,personajes,mapademonstruos,monstruos
     nl=len(lista)
     accion_no_selecionada=True
+    mostrar_mini_estado(personaje,pos)
+    actualizarlistadeacciones(lista,campodebatalla)
     while accion_no_selecionada:
         i=0
         j=0
@@ -103,10 +105,18 @@ def pmenu(lista,pos,mapa,campodebatalla,personaje,mapamonstruos,monstruos,datafr
             ubicacion(pos,mapa)
             encuentro(mapa,pos,campodebatalla,personaje,mapamonstruos,monstruos)
             
+        elif lista[opcion_elegida] == "Huir":#poner un if dentro para ver si puede huir,si puede hace lo que pone dentro sino pues se jode y pierde el turno, y los demas atacan y hacen sus cosillas
+            
+            accion_no_selecionada=False
+            aventura(pos,mapa)
+            ubicacion(pos,mapa)
+            encuentro(mapa,pos,campodebatalla,personaje,mapamonstruos,monstruos)
+
         elif lista[opcion_elegida] == "Salir":
             accion_no_selecionada=False
             return False                
-    return True
+#    return True
+    return pmenu(lista,pos,mapa,campodebatalla,personaje,mapamonstruos,monstruos,dataframearmas,arma)
 
 def ubicacion(pos,mapa):
     #numero de ubicaciones que hay 
@@ -255,7 +265,7 @@ def caminar():
                 opcion_elegida=0
                 break
         print("Caminas")
-        time.sleep(3)
+        time.sleep(1)
         direccion=opcion_elegida
         partida_pausa=0
         direccion=int(float(direccion))
@@ -365,9 +375,11 @@ def actualizarlistadeacciones(lista,campodebatalla):
 def guardar_salir(armas,contendientes, mapa, ubi):
     contendientes.to_excel('Campo de batalla.xlsx',sheet_name='Campo de batalla')
     mapa.to_excel('Mapa.xlsx',sheet_name='Mapa')
-
-
-campodebatalla=pd.read_excel("Campo de batalla.xlsx")    
-armas=pd.read_excel("Armas_Hechizos.xlsx")
-a = seleccion_arma(armas)
-seleccionar_objetivo(campodebatalla,armas, a)
+def mostrar_mini_estado(personajes,ubi):
+    print(personajes.at[0,'Nombre']," PV:",personajes.at[0,'Puntos de vida'],"/",personajes.at[0,'Puntos de vida maximo'])
+    print("Ubicacion:",ubi[0],",",ubi[1])
+#
+#campodebatalla=pd.read_excel("Campo de batalla.xlsx")    
+#armas=pd.read_excel("Armas_Hechizos.xlsx")
+#a = seleccion_arma(armas)
+#seleccionar_objetivo(campodebatalla,armas, a)
