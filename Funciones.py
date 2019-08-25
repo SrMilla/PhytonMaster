@@ -83,8 +83,8 @@ def pmenu(lista,pos,mapa,campodebatalla,personaje,mapamonstruos,monstruos,datafr
     while accion_no_selecionada:
         i=0
         j=0
-        while i <nl:
-            if nl-1<0:
+        while i <=nl:
+            if nl-i<=0:
                 print("-",i," "+lista[i])
                 i+=1
             else:
@@ -383,7 +383,6 @@ def guardar_salir(armas,contendientes, mapa, ubi):
 def mostrar_mini_estado(personajes,ubi):
     print(personajes.at[0,'Nombre']," PV:",personajes.at[0,'Puntos de vida'],"/",personajes.at[0,'Puntos de vida maximo'])
     print("Ubicacion:",ubi[0],",",ubi[1])
-#
 #campodebatalla=pd.read_excel("Campo de batalla.xlsx")    
 #armas=pd.read_excel("Armas_Hechizos.xlsx")
 #a = seleccion_arma(armas)
