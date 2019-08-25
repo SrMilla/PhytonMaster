@@ -20,15 +20,7 @@ campodebatalla=pd.read_excel("Campo de batalla.xlsx")
 mapademonstruos=pd.read_excel("Mapa de Monstruos.xlsx")
 armas=pd.read_excel("Armas_Hechizos.xlsx")
 acciones=['Atacar',"Caminar","Salir"]
-
 print("Bienvenido,cargando personajes...")
 personajes = pd.read_excel("Personajes.xlsx")
 print("Tu personaje  "+personajes.at[0,'Nombre']+" ya se ha cargado\nCargando monstruos...")
-
-#p=f.sacar_lista_de_enemigos(campodebatalla)
-#f.seleccionar_objetivo(campodebatalla,armas,'Bola de fuego')
-#k=f.sacarindexmonstruo(t,monstruos)
-#f.añadirmonstruopornombre(campodebatalla,monstruos,t,0)
-#f.ponermonstruosdemapademonstruos(mapademonstruos,2,campodebatalla,monstruos)
-#f.encuentro(mp,ubi,campodebatalla,personajes,mapademonstruos,monstruos)
 f.pmenu(acciones,ubi,mp,campodebatalla,personajes,mapademonstruos,monstruos,armas,'Bola de fuego')
