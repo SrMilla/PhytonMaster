@@ -83,8 +83,9 @@ def pmenu(lista,pos,mapa,campodebatalla,personaje,mapamonstruos,monstruos,datafr
     while accion_no_selecionada:
         i=0
         j=0
-        for i in range(nl):
-            print("-",i," "+lista[i])
+        while i <nl:
+            print("-",i," "+lista[i]+"\t-",i+1,""+lista[i+1])
+            i+=2
         opcion_elegida = input("\nElige un número: ")
         opcion_elegida=int(float(opcion_elegida))
 #        for j in range(nl):
